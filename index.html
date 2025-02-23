@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nhu Cầu Xe Tháng 3 - Showroom Thuận An</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script defer src="https://unpkg.com/lucide@latest"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/toastr@2.1.4/build/toastr.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastr@2.1.4/build/toastr.min.css">
+</head>
+<body class="bg-gray-100 text-gray-900">
+    <div class="container mx-auto py-10 px-4 md:px-10">
+        <h2 class="text-3xl font-bold text-center mb-6 text-blue-600 flex justify-center items-center gap-2">
+            <i data-lucide="truck" class="w-8 h-8"></i>
+            Nhu Cầu Xe Tháng 3 - Showroom Thuận An
+        </h2>
+        
+        <div class="bg-white shadow-lg rounded-xl p-6 mb-6">
+            <h3 class="text-2xl font-semibold mb-4 text-gray-700 flex items-center gap-2">
+                <i data-lucide="plus-circle"></i> Thêm Đơn Hàng
+            </h3>
+            <form id="orderForm" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <select class="border p-3 rounded-lg select2" id="tuVanBH">
+                    <option value="">🔹 Chọn Tư Vấn BH</option>
+                    <option>Đinh Trọng Nhân</option>
+                    <option>Lê Mai Anh</option>
+                    <option>Nguyễn Văn Giáp</option>
+                </select>
+                <select class="border p-3 rounded-lg select2" id="dongXe">
+                    <option value="">🚘 Chọn Dòng Xe</option>
+                    <option>VF3</option>
+                    <option>VF5</option>
+                </select>
+                <input type="text" placeholder="🏷️ Phiên Bản" class="border p-3 rounded-lg w-full" id="phienBan">
+                <input type="text" placeholder="🎨 Ngoại Thất" class="border p-3 rounded-lg w-full" id="ngoaiThat">
+                <input type="text" placeholder="🛋️ Nội Thất" class="border p-3 rounded-lg w-full" id="noiThat">
+                <input type="text" placeholder="📌 VSO" class="border p-3 rounded-lg w-full" id="vso">
+                <input type="text" placeholder="👤 Tên KH" class="border p-3 rounded-lg w-full" id="tenKH">
+                <input type="date" class="border p-3 rounded-lg w-full" id="ngayCoc">
+                <input type="text" placeholder="💰 Tình Trạng Thanh Toán" class="border p-3 rounded-lg w-full" id="tinhTrangThanhToan">
+                <button type="button" class="col-span-1 md:col-span-2 bg-blue-600 hover:bg-blue-800 text-white font-semibold py-3 rounded-lg transition-transform hover:scale-105" onclick="themDonHang()">
+                    <i data-lucide="plus"></i> Thêm Đơn Hàng
+                </button>
+            </form>
+        </div>
+        
+        <div class="bg-white shadow-lg rounded-xl p-6">
+            <h3 class="text-2xl font-semibold mb-4 text-gray-700 flex items-center gap-2">
+                <i data-lucide="list"></i> Danh Sách Đơn Hàng (<span id="totalOrders">0</span>)
+            </h3>
+            <!-- Mục tìm kiếm đơn hàng -->
+            <div class="mb-4">
+                <input type="text" id="searchInput" placeholder="🔍 Tìm kiếm đơn hàng..." class="border p-3 rounded-lg w-full">
+            </div>
+            <button class="mb-4 bg-green-500 hover:bg-green-700 text-white py-2 px-4 rounded" onclick="exportToExcel()">📤 Xuất Excel</button>
+            <table class="w-full border-collapse border border-gray-300" id="orderTable">
+                <thead>
+                    <tr class="bg-gray-200">
+                        <th class="border p-2">Tư Vấn BH</th>
+                        <th class="border p-2">Dòng Xe</th>
+                        <th class="border p-2">Phiên Bản</th>
+                        <th class="border p-2">Ngoại Thất</th>
+                        <th class="border p-2">Nội Thất</th>
+                        <th class="border p-2">VSO</th>
+                        <th class="border p-2">Tên KH</th>
+                        <th class="border p-2">Ngày Cọc</th>
+                        <th class="border p-2">Thanh Toán</th>
+                        <th class="border p-2">Thời Gian Nhập Liệu</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </div>
+    <script>
+        function themDonHang() {
+            let inputs = ['#tuVanBH', '#dongXe', '#phienBan', '#ngoaiThat', '#noiThat', '#vso', '#tenKH', '#ngayCoc', '#tinhTrangThanhToan'];
+            let data = {};
+            let isValid = true;
+            inputs.forEach(id => {
+                let input = $(id);
+                data[id] = input.val().trim();
+                if (!data[id]) {
+                    input.addClass('border-red-500');
+                    isValid = false;
+                } else {
+                    input.removeClass('border-red-500');
+                }
+            });
+
+            // Kiểm tra Tên KH chỉ chứa chữ
+            if (!/^[a-zA-Z\s]+$/.test(data['#tenKH'])) {
+                Swal.fire('Lỗi!', 'Tên khách hàng chỉ được phép nhập chữ!', 'error');
+                return;
+            }
+
+            // Kiểm tra ngày cọc không được là ngày trong tương lai
+            if (new Date(data['#ngayCoc']) > new Date()) {
+                Swal.fire('Lỗi!', 'Ngày cọc không thể là ngày trong tương lai!', 'error');
+                return;
+            }
+
+            if (!isValid) return Swal.fire('Lỗi!', 'Vui lòng nhập đầy đủ thông tin!', 'error');
+            if ($('#orderTable tbody tr td:nth-child(6)').toArray().some(td => td.innerText === data['#vso'])) {
+                return Swal.fire('Lỗi!', 'VSO đã tồn tại!', 'error');
+            }
+            data['#time'] = new Date().toLocaleString('vi-VN');
+            $('#orderTable tbody').append(`<tr>${Object.values(data).map(val => `<td class='border p-2'>${val}</td>`).join('')}</tr>`);
+            $('#totalOrders').text($('#orderTable tbody tr').length);
+            inputs.forEach(id => $(id).val(''));
+            toastr.success('Đơn hàng đã được thêm!');
+            // Cuộn xuống bảng
+            $('html, body').animate({
+                scrollTop: $('#orderTable').offset().top
+            }, 1000);
+        }
+
+        // Thêm chức năng tìm kiếm đơn hàng
+        $("#searchInput").on("keyup", function() {
+            var value = $(this).val().toLowerCase();
+            $("#orderTable tbody tr").filter(function() {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+            });
+        });
+    </script>
+</body>
+</html>
