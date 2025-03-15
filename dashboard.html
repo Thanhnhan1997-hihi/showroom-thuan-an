@@ -6,6 +6,16 @@
     <title>Hệ Thống Quản Lý Ghép Xe</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <script>
+        if (sessionStorage.getItem('loggedIn') !== 'true') {
+            window.location.href = "index.html";
+        }
+
+        function logout() {
+            sessionStorage.removeItem('loggedIn');
+            window.location.href = 'index.html';
+        }
+    </script>
     <style>
         body {
             font-family: 'Poppins', sans-serif;
@@ -90,9 +100,9 @@
             </a>
         </div>
         <div class="flex justify-center mt-10">
-            <a href="dang-nhap.html" class="btn btn-logout">
+            <button onclick="logout()" class="btn btn-logout">
                 Thoát
-            </a>
+            </button>
         </div>
     </div>
 </body>
