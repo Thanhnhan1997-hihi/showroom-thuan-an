@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <!-- Thêm Bootstrap từ thư mục cục bộ -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+
+    <!-- Thêm Axios từ thư mục cục bộ -->
+    <script src="js/axios.min.js"></script>
+
+    <!-- Thêm Bootstrap JS từ thư mục cục bộ -->
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Danh Sách Đơn Hàng Bán Xe</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <style>
+        body {
+            font-family:'Montserrat', sans-serif;
+            background: url('https://vinfastotominhdao.vn/wp-content/uploads/vf7-trang.jpg') no-repeat center center fixed;
+            background-size: cover;
+            color: #f8f9fa;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1550px;
+            margin: auto;
+            background: rgba(181, 181, 181, 0.85);
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(1px);
+        }
+
+.nav-tabs .nav-link {
+    color: white;
+    background: #222; /* Màu mặc định của tab chưa chọn */
+    border-radius: 8px 8px 0 0;
+    border: 2px solid transparent;
+    transition: all 0.3s ease-in-out;
+}
+
+.nav-tabs .nav-link.active {
+    background: linear-gradient(45deg, #333333, #333300); /* Gradient vàng cam */
+    color: black; /* Chữ màu đen để tương phản */
+    font-weight: bold;
+    border: 2px solid #FFFFFF; /* Viền vàng */
+    box-shadow: 0 4px 10px rgba(255, 204, 0, 0.5); /* Hiệu ứng đổ bóng */
+
+        }
+        .tab-content {
+            background: rgba(36, 36, 36, 0.9);
+            padding: 20px;
+            border-radius: 8px;
+        }
+        td {
+            font-size: 10px;
+            padding: 5px;
+        }
+#table1 tbody tr:hover, 
+#table2 tbody tr:hover {
+    background-color: #ff8800 !important;
+    color: white;
+    transition: background-color 0.15s ease-in-out;
+}
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+tbody tr {
+    animation: fadeIn 0.5s ease-in-out;
+}
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .header {
+            text-align: center;
+            padding: 40px 0;
+            font-size: 25px;
+            font-weight: bold;
+            background: linear-gradient(45deg, rgba(68, 68, 68, 0.85), rgba(34, 34, 34, 0.85));
+            backdrop-filter: blur(5px);
+            color: #fff;
+            border-radius: 12px;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 0px rgba(0, 0, 0, 0.1);
+            animation: fadeIn 5s ease-in-out;
+        }
+        .table-responsive {
+            max-height: 500px;
+            overflow-y: auto;
+            border-radius: 8px;
+        }
+        th {
+            white-space: nowrap;
+            background: linear-gradient(45deg, #444444, #222222);
+            color: white;
+            font-size: 15px;
+            text-transform: uppercase;
+            padding: 14px;
+            text-align: center;
+            font-weight: bold;
+            border-bottom: 3px solid #ffcc00;
+            text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.3);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+tbody tr:hover {
+    background-color: rgba(255, 204, 0, 0.2) !important;
+    color: white;
+    transform: scale(1.01);
+}
+.filter-container {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+    justify-content: center;
+}
+.filter-container {
+    display: flex;
+    align-items: center;
+    justify-content:between; /* Căn các phần tử đều nhau */
+    gap: 10px;
+}
+.filter-box {
+    width: 220px;
+    height: 40px;
+    font-size: 14px;
+    background: linear-gradient(45deg, #444444, #222222);
+    color: white;
+    border: 2px solid #555555;
+    padding: 5px 10px;
+    border-radius: 6px;
+    outline: none;
+    transition: all 0.3s ease-in-out;
+}
+#reloadData {
+    float: right; /* Đưa nút về góc phải */
+    padding: 10px 20px;
+    font-size: 15px;
+    font-weight: bold;
+    color: black;
+    background: linear-gradient(45deg, #444444, #222222); /* Vàng cam */
+    border: #666666;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+}
+/* Đổi màu nền của bảng */
+.table-dark {
+    background-color: rgba(169, 169, 169, 0.5); /* Màu xám đậm, độ trong suốt nhẹ */
+    color: white; /* Chữ màu trắng */
+}
+
+/* Màu nền của hàng trong bảng */
+.table-dark tbody tr {
+    background-color: rgba(50, 50, 50, 0.9); /* Xám trung bình */
+}
+
+
+/* Khi hover vào hàng */
+.table-dark tbody tr:hover {
+    background-color: rgba(255, 204, 0, 0.2) !important; /* Nền vàng nhạt khi rê chuột */
+    color: white;
+    transform: scale(1.01); /* Hiệu ứng phóng to nhẹ */
+}
+
+.count-orders {
+    text-align: right; /* Căn phải */
+    font-family: "Times New Roman", serif; /* Đổi font */
+    font-size: 14px;
+    font-style: italic; /* Chữ nghiêng */
+    font-weight: normal; /* Không in đậm */
+    color: #FFFFFF;
+    margin-bottom: 5px;
+}
+
+.highlight-vin {
+    color: #FF3300 !important; /* Chữ màu đỏ đậm */
+    font-weight: bold;
+    font-size: 12px; /* Phóng to chữ */
+    padding: 10px; /* Cách đều nội dung */
+    text-align: center;
+}
+#reloadData:hover {
+    background: linear-gradient(45deg, #444444, #222222); /* Cam đậm hơn */
+    color: white;
+}
+
+.search-box {
+    width: 200px; /* Giảm chiều rộng */
+    height: 40px; /* Giảm chiều cao */
+    font-size: 14px; /* Giảm kích thước chữ */
+    background: linear-gradient(45deg, #444444, #222222);
+    color: #ffcc00; /* Chữ màu vàng nổi bật */
+   border: 2px solid #555555; /* Viền vàng */
+    padding: 5px 10px; /* Thu nhỏ padding */
+    border-radius: 6px; /* Bo góc nhẹ */
+    outline: none;
+    transition: all 0.3s ease-in-out;
+}
+.search-box::placeholder {
+    color: rgba(255, 255, 255, 0.9); /* Màu trắng nhạt */
+    font-style: arial;
+}
+.loading {
+    display: none;
+    width: 100%;
+    text-align: center;
+    font-size: 15px;
+    color: white;
+    background: rgba(54, 54, 54, 0);
+    padding: 12px;
+    border-radius: 8px;
+    animation: fadeIn 0.5s ease-in-out;
+}
+.highlight {
+    background-color: yellow;
+    color: black;
+    font-weight: bold;
+}
+
+/* Thêm hiệu ứng spinner */
+.loading::before {
+    content: "⏳";
+    font-weight: bold;
+    animation: pulse 1s infinite alternate;
+}
+
+@keyframes pulse {
+    0% { opacity: 0.6; }
+    100% { opacity: 1; }
+}
+th {
+    cursor: pointer; /* Hiển thị con trỏ khi hover */
+    user-select: none; /* Ngăn chọn văn bản khi nhấn */
+    position: relative;
+    padding-right: 20px; /* Dành chỗ cho biểu tượng */
+}
+
+/* Biểu tượng sắp xếp */
+th::after {
+    content: " ⬍"; /* Mũi tên lên xuống mặc định */
+    font-size: 12px;
+    color: #aaa;
+    position: absolute;
+    right: 5px;
+}
+
+/* Khi sắp xếp tăng dần */
+th.sorted-asc::after {
+    content: " ▲";
+    color: #ffcc00;
+}
+
+/* Khi sắp xếp giảm dần */
+th.sorted-desc::after {
+    content: " ▼";
+    color: #ffcc00;
+}
+
+    </style>
+
+<style>
+/* Cố định tiêu đề bảng */
+.table-responsive {
+    position: relative;
+    overflow: auto;
+    max-height: 500px; /* Giữ nguyên giới hạn chiều cao */
+}
+
+.table thead th {
+    position: sticky;
+    top: 0;
+    background: linear-gradient(45deg, #444444, #222222); /* Giữ nền tiêu đề */
+    z-index: 100;
+}
+</style>
+
+
+<style>
+/* Hiệu ứng phát sáng cho số VIN */
+@keyframes glow {
+    0% { text-shadow: 0 0 5px red; }
+    50% { text-shadow: 0 0 15px red; }
+    100% { text-shadow: 0 0 5px red; }
+}
+
+.highlight-vin {
+    color: red !important;
+    font-weight: bold;
+    animation: glow 1.5s infinite alternate;
+}
+</style>
+
+
+<style>
+/* Hiệu ứng phát sáng cho số VIN với màu vàng */
+@keyframes glowYellow {
+    0% { text-shadow: 0 0 5px yellow; }
+    50% { text-shadow: 0 0 15px yellow; }
+    100% { text-shadow: 0 0 5px yellow; }
+}
+
+.highlight-vin {
+    color: yellow !important;
+    font-weight: bold;
+    animation: glowYellow 1.5s infinite alternate;
+}
+</style>
+
+
+<style>
+/* Hiệu ứng phát sáng cho số VIN với màu vàng và kích thước lớn hơn */
+@keyframes glowYellow {
+    0% { text-shadow: 0 0 5px yellow; }
+    50% { text-shadow: 0 0 15px yellow; }
+    100% { text-shadow: 0 0 5px yellow; }
+}
+
+.highlight-vin {
+    color: yellow !important;
+    font-weight: bold;
+    font-size: 18px !important; /* Tăng kích thước chữ */
+    animation: glowYellow 1.5s infinite alternate;
+}
+</style>
+
+
+<style>
+/* Hiệu ứng phát sáng sang trọng với màu vàng gold */
+@keyframes glowGold {
+    0% { text-shadow: 0 0 5px gold; }
+    50% { text-shadow: 0 0 15px gold; }
+    100% { text-shadow: 0 0 5px gold; }
+}
+
+.highlight-vin {
+    color: gold !important;
+    font-weight: bold;
+    font-size: 20px !important; /* Tăng kích thước chữ hơn nữa */
+    animation: glowGold 1.5s infinite alternate;
+    text-transform: uppercase; /* In hoa để tăng độ sang trọng */
+}
+</style>
+
+
+<style>
+/* Hiệu ứng phát sáng sang trọng với màu bạc sáng */
+@keyframes glowSilver {
+    0% { text-shadow: 0 0 5px silver; }
+    50% { text-shadow: 0 0 15px silver; }
+    100% { text-shadow: 0 0 5px silver; }
+}
+
+.highlight-vin {
+    color: silver !important;
+    font-weight: bold;
+    font-size: 20px !important; /* Kích thước lớn hơn để nổi bật */
+    animation: glowSilver 1.5s infinite alternate;
+    text-transform: uppercase; /* In hoa để tăng độ sang trọng */
+}
+</style>
+
+
+<style>
+/* Hiệu ứng phát sáng nhẹ với màu bạc gốc */
+@keyframes glowSilverLight {
+    0% { text-shadow: 0 0 3px silver; }
+    50% { text-shadow: 0 0 3px silver; }
+    100% { text-shadow: 0 0 3px silver; }
+}
+
+.highlight-vin {
+    color: silver !important; /* Giữ màu bạc gốc */
+    font-weight: bold;
+    font-size: 14px !important; /* Kích thước vừa phải */
+    animation: glowSilverLight 1.5s infinite alternate;
+    text-transform: uppercase; /* In hoa để dễ nhìn hơn */
+}
+</style>
+
+
+<style>
+/* Hiệu ứng phát sáng nhẹ với màu bạc gốc */
+@keyframes glowSilverLight {
+    0% { text-shadow: 0 0 3px silver; }
+    50% { text-shadow: 0 0 10px silver; }
+    100% { text-shadow: 0 0 3px silver; }
+}
+
+.highlight-vin {
+    color: silver !important; /* Giữ màu bạc gốc */
+    font-weight: bold;
+    font-size: 14px !important; /* Kích thước chữ vừa phải */
+    animation: glowSilverLight 1.5s infinite alternate;
+    text-transform: uppercase; /* In hoa để tăng độ nổi bật */
+}
+</style>
+
+</head>
+<body>
+    <div class="container">
+        <div class="header text-center text-white py-3">
+            📋 DANH SÁCH ĐƠN HÀNG BÁN XE 🚗
+        </div>
+
+        <ul class="nav nav-tabs" id="myTabs">
+            <li class="nav-item">
+                <a class="nav-link active" id="tab1-tab" data-bs-toggle="tab" href="#tab1">ĐÃ GHÉP</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="tab2-tab" data-bs-toggle="tab" href="#tab2">CHƯA GHÉP</a>
+            </li>
+
+        </ul>
+        <div class="tab-content mt-1">
+            <div class="loading" id="loading">Loading...</div>
+            <div class="tab-pane fade show active" id="tab1">
+                <input type="text" id="search1" class="form-control search-box" placeholder="🔍 Tìm kiếm...">
+<div class="filter-container">
+    <select id="filter-tuvan" class="form-control filter-box">
+        <option value="">Chọn Tư Vấn BH</option>
+      <option value="Đinh Trọng Nhân">Đinh Trọng Nhân</option>
+    <option value="Lê Mai Anh">Lê Mai Anh</option>
+    <option value="Lê Quốc Thịnh">Lê Quốc Thịnh</option>
+    <option value="Lương Thế Ngọc">Lương Thế Ngọc</option>
+    <option value="Nguyễn Hoàng Phúc">Nguyễn Hoàng Phúc</option>
+    <option value="Nguyễn Minh Trung">Nguyễn Minh Trung</option>
+    <option value="Nguyễn Thiện Thảo">Nguyễn Thiện Thảo</option>
+    <option value="Tất Bách Tường">Tất Bách Tường</option>
+    <option value="Thành Ngọc Vinh">Thành Ngọc Vinh</option>
+    <option value="Võ Minh Tuấn">Võ Minh Tuấn</option>
+    <option value="Trần Thị Nguyệt Bạch">Trần Thị Nguyệt Bạch</option>
+    <option value="Phạm Trọng Huy">Phạm Trọng Huy</option>
+    <option value="Nguyễn Anh Tuấn">Nguyễn Anh Tuấn</option>
+    <option value="Nguyễn Trần Hoàng Thanh">Nguyễn Trần Hoàng Thanh</option>
+    <option value="Nguyễn Hoàng Thạch">Nguyễn Hoàng Thạch</option>
+    <option value="Lý Kim Vinh">Lý Kim Vinh</option>
+    <option value="Bùi Anh Tài">Bùi Anh Tài</option>
+    <option value="Vũ Thị Trang">Vũ Thị Trang</option>
+    </select>
+    <select id="filter-dongxe" class="form-control filter-box">
+        <option value="">Chọn Dòng Xe</option>
+          <option value="VF3">VF3</option>
+    <option value="VF5">VF5</option>
+    <option value="VF6">VF6</option>
+    <option value="VF7">VF7</option>
+    <option value="VF8">VF8</option>
+    <option value="VF9">VF9</option>
+    </select>
+<button id="reloadData" class="btn btn-warning">🔄 Tải lại dữ liệu</button></div><p id="count1" class="count-orders">Tổng Đơn: 0</p>
+                <div class="table-responsive">
+                    <table class="table table-dark table-bordered text-center" id="table1">
+<thead>
+    <tr>
+        <th onclick="sortTable(0)">SỐ TT</th>
+        <th onclick="sortTable(1)">TƯ VẤN BH</th>
+        <th onclick="sortTable(2)">DÒNG XE</th>
+        <th onclick="sortTable(3)">MODEL</th>
+        <th onclick="sortTable(4)">NGOẠI THẤT</th>
+        <th onclick="sortTable(5)">NỘI THẤT</th>
+        <th onclick="sortTable(6)">SỐ ĐƠN HÀNG (VSO)</th>
+        <th onclick="sortTable(7)">TÊN KHÁCH HÀNG</th>
+        <th onclick="sortTable(8)">SỐ VIN</th>
+        <th onclick="sortTable(9)">NGÀY GHÉP</th>
+        <th onclick="sortTable(10)">SỐ NGÀY</th>
+        <th onclick="sortTable(11)">VỊ TRÍ XE</th>
+    </tr>
+</thead>
+
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="tab-pane fade" id="tab2">
+                <input type="text" id="search2" class="form-control search-box" placeholder="🔍 Tìm kiếm..."><div class="filter-container">
+    <select id="filter-dongxe2" class="form-control filter-box">
+        <option value="">Chọn Dòng Xe</option>
+        <option value="VF3">VF3</option>
+        <option value="VF5">VF5</option>
+        <option value="VF6">VF6</option>
+        <option value="VF7">VF7</option>
+        <option value="VF8">VF8</option>
+        <option value="VF9">VF9</option>
+    </select>
+</div>
+<p id="count2" class="count-orders">Tổng Đơn: 0</p>
+                <div class="table-responsive">
+                    <table class="table table-dark table-bordered text-center" id="table2">
+                        <thead>
+                            <tr>
+                                <th>SỐ TT</th>
+                                <th>TƯ VẤN BH</th>
+                                <th>DÒNG XE</th>
+                                <th>MODEL</th>
+                                <th>NGOẠI THẤT</th>
+                                <th>NỘI THẤT</th>
+                                <th>SỐ ĐƠN HÀNG (VSO)</th>
+                                <th>TÊN KHÁCH HÀNG</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+<script>
+let tableData = {
+    table1: [],
+    table2: []
+};
+
+// Fetch dữ liệu từ API và hiển thị bảng
+function fetchData() {
+    const loadingElement = document.getElementById("loading");
+    loadingElement.style.display = "block";
+
+    const apiURL = "https://script.google.com/macros/s/AKfycbyT5ODh1u0mbxbh6flo1vb5-7dPff6w9zrvFoCfXlqBRCscfLT0J79zVrpqziMqqTfR/exec";
+
+    axios.get(apiURL)
+        .then(response => {
+            let data = response.data;
+            if (data.Sheet1) {
+                tableData.table1 = data.Sheet1.map(row => Object.values(row));
+                renderTable(tableData.table1, "table1");
+            }
+            if (data.Sheet2) {
+                tableData.table2 = data.Sheet2.map(row => Object.values(row));
+                renderTable(tableData.table2, "table2");
+            }
+        })
+        .catch(error => {
+            console.error("Lỗi tải dữ liệu:", error);
+            loadingElement.innerHTML = `<div class="text-danger">❌ Không thể tải dữ liệu, vui lòng thử lại!</div>`;
+        })
+        .finally(() => {
+            setTimeout(() => {
+                loadingElement.style.display = "none";
+            }, 1000);
+        });
+}
+
+// Render bảng từ dữ liệu
+function renderTable(data, tableId) {
+    let tableBody = document.querySelector(`#${tableId} tbody`);
+    tableBody.innerHTML = "";
+
+    let fragment = document.createDocumentFragment();
+    data.forEach((row, index) => {
+        let tr = document.createElement("tr");
+        tr.innerHTML = `<td>${index + 1}</td>` + row.map(cell => `<td>${cell || ""}</td>`).join("");
+        fragment.appendChild(tr);
+    });
+
+    tableBody.appendChild(fragment);
+    updateCount(tableId);
+}
+
+// Xóa dấu tiếng Việt để tìm kiếm và lọc không phân biệt dấu
+function removeAccents(str) {
+    return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().trim();
+}
+
+// Cập nhật tổng số đơn hiển thị
+function updateCount(tableId) {
+    let visibleRows = document.querySelectorAll(`#${tableId} tbody tr:not([style*='display: none'])`).length;
+    document.getElementById(`count${tableId === "table1" ? "1" : "2"}`).textContent = `Tổng Đơn: ${visibleRows}`;
+}
+
+// **Sắp xếp bảng theo cột**
+let sortDirection = {};
+
+function sortTable(columnIndex, tableId) {
+    if (!tableData[tableId] || tableData[tableId].length === 0) return;
+
+    sortDirection[tableId] = sortDirection[tableId] || {};
+    sortDirection[tableId][columnIndex] = !sortDirection[tableId][columnIndex] ? 1 : -sortDirection[tableId][columnIndex];
+
+    let sortedData = [...tableData[tableId]];
+    sortedData.sort((rowA, rowB) => {
+        let cellA = rowA[columnIndex] ? rowA[columnIndex].toString().trim() : "";
+        let cellB = rowB[columnIndex] ? rowB[columnIndex].toString().trim() : "";
+
+        let isNumeric = !isNaN(cellA) && !isNaN(cellB);
+        let isDate = !isNaN(Date.parse(cellA)) && !isNaN(Date.parse(cellB));
+
+        if (isNumeric) {
+            return (parseFloat(cellA) - parseFloat(cellB)) * sortDirection[tableId][columnIndex];
+        }
+        if (isDate) {
+            return (new Date(cellA) - new Date(cellB)) * sortDirection[tableId][columnIndex];
+        }
+        return cellA.localeCompare(cellB, "vi", { numeric: true }) * sortDirection[tableId][columnIndex];
+    });
+
+    tableData[tableId] = sortedData;
+    renderTable(sortedData, tableId);
+}
+
+
+// Hàm highlight và tìm kiếm
+function highlightSearch(tableId, searchValue) {
+    let rows = document.querySelectorAll(`#${tableId} tbody tr`);
+    let regex = new RegExp(`(${searchValue})`, "gi");
+
+    rows.forEach(row => {
+        let showRow = false;
+
+        row.querySelectorAll("td").forEach(td => {
+            let text = td.textContent.toLowerCase();
+            let searchLower = searchValue.toLowerCase();
+
+            // Lưu nội dung gốc nếu chưa có
+            if (!td.hasAttribute("data-original-text")) {
+                td.setAttribute("data-original-text", td.innerHTML);
+            }
+
+            if (text.includes(searchLower)) {
+                showRow = true;
+                td.innerHTML = td.getAttribute("data-original-text").replace(regex, `<span class="highlight">$1</span>`);
+            } else {
+                td.innerHTML = td.getAttribute("data-original-text"); // Trả lại nội dung gốc nếu không khớp
+            }
+        });
+
+        row.style.display = showRow ? "" : "none"; // Ẩn các dòng không chứa từ khóa
+    });
+
+    updateCount(tableId);
+}
+
+// Hàm xóa highlight và hiển thị lại dữ liệu gốc
+function removeHighlight(tableId) {
+    let rows = document.querySelectorAll(`#${tableId} tbody tr`);
+
+    rows.forEach(row => {
+        row.style.display = ""; // Hiển thị lại tất cả hàng
+
+        row.querySelectorAll("td").forEach(td => {
+            if (td.hasAttribute("data-original-text")) {
+                td.innerHTML = td.getAttribute("data-original-text"); // Khôi phục nội dung gốc
+                td.removeAttribute("data-original-text"); // Xóa dữ liệu tạm
+            }
+        });
+    });
+
+    updateCount(tableId);
+}
+
+// Thiết lập tìm kiếm với highlight
+function setupSearch(inputId, tableId) {
+    document.getElementById(inputId).addEventListener("input", function () {
+        let searchValue = this.value.trim();
+        if (searchValue === "") {
+            removeHighlight(tableId);
+        } else {
+            highlightSearch(tableId, searchValue);
+        }
+    });
+}
+
+function setupSearch(inputId, tableId) {
+    document.getElementById(inputId).addEventListener("input", function () {
+        let searchValue = this.value.trim();
+        if (searchValue === "") {
+            removeHighlight(tableId);
+        } else {
+            highlightSearch(tableId, searchValue);
+        }
+    });
+}
+
+// **Lọc dữ liệu theo dòng xe và tư vấn BH cho Tab 1**
+function filterTable(tableId) {
+    let tuVanValue = removeAccents(document.getElementById("filter-tuvan").value);
+    let dongXeValue = removeAccents(document.getElementById("filter-dongxe").value);
+
+    let rows = document.querySelectorAll(`#${tableId} tbody tr`);
+    rows.forEach(row => {
+        let tuVanText = removeAccents(row.cells[1]?.textContent || "");
+        let dongXeText = removeAccents(row.cells[2]?.textContent || "");
+
+        let matchTuVan = !tuVanValue || tuVanText.includes(tuVanValue);
+        let matchDongXe = !dongXeValue || dongXeText.includes(dongXeValue);
+
+        row.style.display = matchTuVan && matchDongXe ? "" : "none";
+    });
+
+    updateCount(tableId);
+}
+
+// **Lọc dữ liệu theo dòng xe cho Tab 2**
+function filterTable2() {
+    let dongXeValue = removeAccents(document.getElementById("filter-dongxe2").value);
+    let rows = document.querySelectorAll("#table2 tbody tr");
+
+    rows.forEach(row => {
+        let dongXeText = removeAccents(row.cells[2]?.textContent || "");
+        row.style.display = !dongXeValue || dongXeText.includes(dongXeValue) ? "" : "none";
+    });
+
+    updateCount("table2");
+}
+
+// **Gán sự kiện khi chọn lọc dữ liệu, tìm kiếm, sắp xếp và tải lại**
+document.addEventListener("DOMContentLoaded", function () {
+    fetchData();
+
+    setupSearch("search1", "table1");
+    setupSearch("search2", "table2");
+
+    document.getElementById("filter-tuvan").addEventListener("change", function () {
+        filterTable("table1");
+    });
+    document.getElementById("filter-dongxe").addEventListener("change", function () {
+        filterTable("table1");
+    });
+    document.getElementById("filter-dongxe2").addEventListener("change", function () {
+        filterTable2();
+    });
+
+    document.querySelectorAll("#table1 th").forEach((th, index) => {
+        th.addEventListener("click", function () {
+            sortTable(index, "table1");
+        });
+    });
+    document.querySelectorAll("#table2 th").forEach((th, index) => {
+        th.addEventListener("click", function () {
+            sortTable(index, "table2");
+        });
+    });
+function showNotification(message) {
+    let notification = document.createElement("div");
+    notification.textContent = message;
+    notification.style.position = "fixed";
+    notification.style.top = "20px";
+    notification.style.right = "20px";
+    notification.style.background = "#28a745";
+    notification.style.color = "white";
+    notification.style.padding = "10px";
+    notification.style.borderRadius = "5px";
+    notification.style.zIndex = "1000";
+
+    document.body.appendChild(notification);
+    
+    setTimeout(() => {
+        document.body.removeChild(notification);
+    }, 3000);
+}
+function removeHighlight(tableId) {
+    let rows = document.querySelectorAll(`#${tableId} tbody tr`);
+    
+    rows.forEach(row => {
+        row.style.display = ""; // Hiển thị lại tất cả hàng
+        
+        row.querySelectorAll("td").forEach(td => {
+            if (td.dataset.originalText) {
+                td.innerHTML = td.dataset.originalText; // Khôi phục nội dung gốc
+                delete td.dataset.originalText; // Xóa dữ liệu lưu trữ
+            }
+        });
+    });
+
+    updateCount(tableId);
+}
+
+document.getElementById("reloadData").addEventListener("click", function () {
+    showNotification("🔄 Đang tải lại dữ liệu...");
+    fetchData();
+});
+
+    document.getElementById("reloadData").addEventListener("click", function () {
+        fetchData();
+    });
+});
+
+</script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    function fetchData() {
+        const loadingElement = document.getElementById("loading");
+        loadingElement.style.display = "block";
+
+        const apiURL = "https://script.google.com/macros/s/AKfycbyT5ODh1u0mbxbh6flo1vb5-7dPff6w9zrvFoCfXlqBRCscfLT0J79zVrpqziMqqTfR/exec";
+
+        axios.get(apiURL)
+            .then(response => {
+                let data = response.data;
+                if (data.Sheet1) {
+                    tableData.table1 = data.Sheet1.map(row => Object.values(row));
+                    renderTable(tableData.table1, "table1");
+                    highlightVinNumbers(); // Gọi ngay sau khi bảng hiển thị
+                }
+                if (data.Sheet2) {
+                    tableData.table2 = data.Sheet2.map(row => Object.values(row));
+                    renderTable(tableData.table2, "table2");
+                }
+            })
+            .catch(error => {
+                console.error("Lỗi tải dữ liệu:", error);
+                loadingElement.innerHTML = `<div class="text-danger">❌ Không thể tải dữ liệu, vui lòng thử lại!</div>`;
+            })
+            .finally(() => {
+                setTimeout(() => {
+                    loadingElement.style.display = "none";
+                }, 1000);
+            });
+    }
+
+    function highlightVinNumbers() {
+        let tableRows = document.querySelectorAll("#table1 tbody tr");
+
+        tableRows.forEach(row => {
+            let vinCell = row.cells[8]; // Cột "SỐ VIN"
+            if (vinCell && vinCell.textContent.trim() !== "") {
+                vinCell.classList.add("highlight-vin");
+            }
+        });
+    }
+
+    document.getElementById("reloadData").addEventListener("click", function () {
+        fetchData();
+    });
+
+    // CSS chỉ làm nổi bật chữ VIN, không thay đổi nền
+    let style = document.createElement("style");
+    style.innerHTML = `
+        .highlight-vin {
+            color: red !important;
+            font-weight: bold;
+        }
+    `;
+    document.head.appendChild(style);
+
+    fetchData(); // Gọi fetchData khi trang tải xong
+});
+</script>
+
+</body>
+</html>

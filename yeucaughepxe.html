@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nhập Liệu Ghép Xe</title>
+    <style>
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+ body {
+            font-family: 'Roboto', sans-serif;
+            background: url('https://otodien.vn/wp-content/uploads/2024/08/hinh-anh-xe-vinfast-vf5-plus-1536x779.webp') no-repeat center center fixed;
+            background-size: cover;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100vh;
+            color: #333;
+            background-color: #d9d9d9;
+        }
+        h2 {
+            text-align: left;
+            margin-bottom: 15px;
+            color: #FFFFFF;
+            font-size: 25px;
+            text-align: center;
+        }
+.title {
+    display: flex; /* Sử dụng Flexbox để căn giữa */
+    justify-content: center; /* Căn giữa theo chiều ngang */
+    align-items: center; /* Căn giữa theo chiều dọc */
+    text-align: center;
+    font-size: 28px;
+    font-weight: bold;
+    color: white;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin: 20px auto; /* Tự căn giữa */
+    padding: 15px 30px; /* Thêm padding */
+    background: linear-gradient(45deg, #444, #777);
+    border-radius: 10px;
+    box-shadow: 3px 3px 15px rgba(0, 0, 0, 0.2);
+    width: fit-content; /* Giữ chiều rộng đúng với nội dung */
+    animation: fadeIn 1s ease-in-out; /* Thêm hiệu ứng xuất hiện */
+}
+
+/* Hiệu ứng xuất hiện */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+        .form-group {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+            margin-bottom: 10px;
+        }
+        .form-item {
+            display: flex;
+            flex-direction: column;
+        }
+        label {
+            font-size: 18px;
+            font-weight: 500;
+            margin-bottom: 9px;
+            color: #FFFFFF;
+        }
+        input, select {
+            padding: 12px;
+            border: 1px solid #777;
+            border-radius: 8px;
+            font-size: 16px;
+            width: 100%;
+            background: #f2f2f2;
+            color: #333;
+        }
+        .btn-submit {
+            background: #F0F8FF; /* Làm nổi bật nút */
+            color: #000;
+            padding: 10px 20px;
+            font-size: 16px;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+            width: fit-content; /* Thu nhỏ theo nội dung */
+            border-radius: 8px;
+            box-shadow: 0px 4px 6px rgba(255, 204, 0, 0.5);
+            transition: all 0.3s ease;
+            display: block;
+            margin: 20px auto; /* Căn giữa nút */
+        }
+        .btn-submit:hover {
+            background: #777;
+            color: #fff;
+        }
+        .container {
+            width: 100%;
+            max-width: 1400px;
+            background: rgba(79, 79, 79, 0.8);
+            padding: 50px;
+            border-radius: 15px;
+            box-shadow: 0px 3px 15px rgba(0, 0, 0, 0.2);
+            text-align: left;
+        }
+        .logo {
+            width: 150px;
+            display: block;
+            margin: 0 auto 10px;
+            filter: drop-shadow(0px 0px 15px rgba(255, 250, 240, 3));
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            background-color: rgba(248, 248, 255, 0.9); /* Đặt nền cho dữ liệu nhập */
+            padding: 10px;
+            border: 1px solid #555;
+            text-align: center;
+        }
+        th {
+            background: linear-gradient(45deg, #444, #777);
+            color: white;
+            font-weight: bold;
+            text-transform: uppercase;
+            border-radius: 10px;
+        }
+        thead tr {
+            border-radius: 10px;
+        }
+        tbody tr:nth-child(even) {
+            background-color: #f5f5f5;
+        }
+        tbody tr:hover {
+            background-color: #e0e0e0;
+            transition: background 0.3s;
+        }    </style>
+</head>
+<body>
+    <div class="container">
+        <img src="https://brasol.vn/wp-content/uploads/2022/09/logo-vinfast-png.png" class="logo" alt="VinFast Logo">
+        <h2 class="title">TẠO YÊU CẦU GHÉP XE</h2>
+        <form id="ghex-form" onsubmit="submitForm(event)">
+            <div class="form-group">
+                <div class="form-item">
+                    <label>📌 Tư Vấn BH</label>
+                    <select name="ten_ban_hang" required>
+                        <option value="">Chọn Tư Vấn BH</option>
+      <option value="Đinh Trọng Nhân">Đinh Trọng Nhân</option>
+    <option value="Lê Mai Anh">Lê Mai Anh</option>
+    <option value="Lê Quốc Thịnh">Lê Quốc Thịnh</option>
+    <option value="Lương Thế Ngọc">Lương Thế Ngọc</option>
+    <option value="Nguyễn Hoàng Phúc">Nguyễn Hoàng Phúc</option>
+    <option value="Nguyễn Minh Trung">Nguyễn Minh Trung</option>
+    <option value="Nguyễn Thiện Thảo">Nguyễn Thiện Thảo</option>
+    <option value="Tất Bách Tường">Tất Bách Tường</option>
+    <option value="Thành Ngọc Vinh">Thành Ngọc Vinh</option>
+    <option value="Võ Minh Tuấn">Võ Minh Tuấn</option>
+    <option value="Trần Thị Nguyệt Bạch">Trần Thị Nguyệt Bạch</option>
+    <option value="Phạm Trọng Huy">Phạm Trọng Huy</option>
+    <option value="Nguyễn Anh Tuấn">Nguyễn Anh Tuấn</option>
+    <option value="Nguyễn Trần Hoàng Thanh">Nguyễn Trần Hoàng Thanh</option>
+    <option value="Nguyễn Hoàng Thạch">Nguyễn Hoàng Thạch</option>
+    <option value="Lý Kim Vinh">Lý Kim Vinh</option>
+    <option value="Bùi Anh Tài">Bùi Anh Tài</option>
+    <option value="Vũ Thị Trang">Vũ Thị Trang</option>
+                    </select>
+                </div>
+                <div class="form-item">
+                    <label>👤 Tên Khách Hàng</label>
+                    <input type="text" name="ten_khach_hang" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="form-item">
+                    <label>🚗 Dòng Xe</label>
+                    <select name="dong_xe" required>
+                        <option value="">Chọn Dòng Xe</option>
+    <option value="VF5">VF5</option>
+    <option value="VF6">VF6</option>
+    <option value="VF7">VF7</option>
+    <option value="VF8">VF8</option>
+    <option value="VF9">VF9</option>
+                    </select>
+                </div>
+                <div class="form-item">
+ <label for="car-color">🏷️ Phiên Bản</label>
+    <select name="phien_ban" required>
+ <option value="">Chọn Phiên Bản</option>
+        <option value="BASE">BASE</option>
+        <option value="Plus">Plus</option>
+        <option value="ECO">ECO</option>
+        <option value="Plus_Metal">Plus_Metal</option>
+        <option value="Plus_CAP_Metal">Plus_CAP_Metal</option>
+        <option value="Plus_Metal_3ZONES">Plus_Metal_3ZONES</option>
+        <option value="Eco_3ZONES">Eco_3ZONES</option>
+        <option value="Plus_CAP_Metal_3ZONES">Plus_CAP_Metal_3ZONES</option>
+          </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="form-item">
+<label for="car-color">🎨 Ngoại Thất</label>
+<select name="ngoai_that" required>
+<option value="">Chọn Màu</option>
+        <option value="1114">1114 - Roof Jet black - Neptune Grey</option>
+        <option value="Roof Jet black - Neptune Grey">1118 - Roof Jet black - Brahminy white</option>
+        <option value="Roof Jet Black - Sunset Orange">111A - Roof Jet Black - Sunset Orange</option>
+        <option value="Infinity Blanc - Silky White">111B - Infinity Blanc - Silky White</option>
+        <option value="Ivy Green - Desat Silver">111C - Ivy Green - Desat Silver</option>
+        <option value="Zenith Grey - Desat Silver">111D - Zenith Grey - Desat Silver</option>
+        <option value="Atlantic Blue - Aquatic Azure">111E - Atlantic Blue - Aquatic Azure</option>
+        <option value="Jet Black - Champagne Creme">111F - Jet Black - Champagne Creme</option>
+        <option value="Deep Ocean - Jet Black">111H - Deep Ocean - Jet Black</option>
+        <option value="Roof Jet Black - Crimson Red">111M - Roof Jet Black - Crimson Red</option>
+        <option value="Roof Jet Black - Vinfast Blue">111N - Roof Jet Black - Vinfast Blue</option>
+        <option value="Crimson Velvet - Mystery Bronze">111T - Crimson Velvet - Mystery Bronze</option>
+        <option value="Roof Jet black - Summer Yellow">111U - Roof Jet black - Summer Yellow</option>
+        <option value="Champagne Creme - Matte Champagne Creme">111X - Champagne Creme - Matte Champagne Creme</option>
+        <option value="Jet Black - Graphite">111Y - Jet Black - Graphite</option>
+        <option value="Urban Mint Green - Desat Silver">111Z - Urban Mint Green - Desat Silver</option>
+        <option value="Desat Silver - Jet Black">1711 - Desat Silver - Jet Black</option>
+        <option value="Desat Silver - Sunset Orange">171A - Desat Silver - Sunset Orange</option>
+        <option value="Desat Silver - Crimson Red">171M - Desat Silver - Crimson Red</option>
+        <option value="Brahminy White - Jet Black">1811 - Brahminy White - Jet Black</option>
+        <option value="Brahminy White - Neptune Grey">1814 - Brahminy White - Neptune Grey</option>
+        <option value="Brahminy White - Sunset Orange">181A - Brahminy White - Sunset Orange</option>
+        <option value="Brahminy White - Deep Ocean">181H - Brahminy White - Deep Ocean</option>
+        <option value="Brahminy White - Crimson Red">181M - Brahminy White - Crimson Red</option>
+        <option value="Brahminy White - Vinfast Blue">181N - Brahminy White - Vinfast Blue</option>
+        <option value="Brahminy White - Summer Yellow">181U - Brahminy White - Summer Yellow</option>
+        <option value="Brahminy White - Iris Berry">181X - Brahminy White - Iris Berry</option>
+        <option value="Xanh Nhạt/Trắng">181Y - Xanh Nhạt/Trắng</option>
+        <option value="Hồng Phấn/Trắng">1821 - Hồng Phấn/Trắng</option>
+        <option value="Champagne Creme - Infinity Blanc">1823 - Champagne Creme - Infinity Blanc</option>
+        <option value="Jet Black">CE11 - Jet Black</option>
+        <option value="Cormorant Brown">CE12 - Cormorant Brown</option>
+        <option value="Luxury Blue">CE13 - Luxury Blue</option>
+        <option value="Neptune Grey">CE14 - Neptune Grey</option>
+        <option value="Action Orange">CE15 - Action Orange</option>
+        <option value="Mystique Red">CE16 - Mystique Red</option>
+        <option value="De Sat Silver">CE17 - De Sat Silver</option>
+        <option value="Brahminy White">CE18 - Brahminy White</option>
+        <option value="Goldenrod">CE19 - Goldenrod</option>
+        <option value="Sunset Orange">CE1A - Sunset Orange</option>
+        <option value="Competition Red">CE1B - Competition Red</option>
+        <option value="Ultramarine">CE1C - Ultramarine</option>
+        <option value="Gun Metal">CE1D - Gun Metal</option>
+        <option value="Placid Lake">CE1E - Placid Lake</option>
+        <option value="Caramel">CE1F - Caramel</option>
+        <option value="Cappuccino">CE1G - Cappuccino</option>
+        <option value="Deep Ocean">CE1H - Deep Ocean</option>
+        <option value="Purple Rain">CE1I - Purple Rain</option>
+        <option value="Xanh Dương Đậm">CE1J - Xanh Dương Đậm</option>
+        <option value="Future Blue">CE1K - Future Blue</option>
+        <option value="Màu Tùy Chọn">CE1KH - Màu Tùy Chọn</option>
+        <option value="Crimson Red">CE1M - Crimson Red</option>
+        <option value="Vinfast Blue">CE1N - Vinfast Blue</option>
+        <option value="Vàng">CE1O - Vàng</option>
+        <option value="Aqua Blue">CE1P - Aqua Blue</option>
+        <option value="Hồng Tím">CE1PP - Hồng Tím</option>
+        <option value="LD Blue">CE1Q - LD Blue</option>
+        <option value="CE1R">CE1R - Xanh Cốm</option>
+        <option value="Xám Xi Măng">CE1V - Xám Xi Măng</option>
+        <option value="Xanh Lá Nhạt">CE1W - Xanh Lá Nhạt</option>
+    </select>
+                </div>
+                <div class="form-item">
+ <label for="car-color">🎨 Nội Thất</label>
+<select name="noi_that" required>
+<option value="">Chọn Màu</option>
+               <option value="CI11_BLACK">CI11_BLACK</option>
+        <option value="CI12_BROWN">CI12_BROWN</option>
+        <option value="CI13_BEIGE">CI13_BEIGE</option>
+        <option value="CI18_CI18_Mocca_Brown_BRC">CI18_Mocca Brown</option>
+    </select>
+                </div>
+      
+                <div class="form-item">
+                    <label>📌 Số Đơn Hàng</label>
+                    <input type="text" name="so_don_hang" required>
+                </div>
+                <div class="form-item">
+                    <label>📅 Thời Gian Cọc</label>
+                    <input type="datetime-local" name="ngay_coc" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="form-item">
+                    <label>💰 Tình Trạng Thanh Toán</label>
+                    <input type="text" name="tinh_trang_thanh_toan" required>
+                    </select>
+                </div>
+            </div>
+            <button type="submit" class="btn-submit">TẠO YÊU CẦU</button>
+        </form>
+    </div>
+<div class="container">
+    <h2>📋 DANH SÁCH YÊU CẦU GHÉP XE</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Tư Vấn BH</th>
+                    <th>Tên Khách Hàng</th>
+                    <th>Dòng Xe</th>
+                    <th>Phiên Bản</th>
+                    <th>Ngoại Thất</th>
+                    <th>Nội Thất</th>
+                    <th>Số Đơn Hàng</th>
+                    <th>Thời Gian Cọc</th>
+                    <th>Tình Trạng Thanh Toán</th>
+                    <th>Thời Gian Nhập Liệu</th>
+                </tr>
+            </thead>
+            <tbody id="order-list"></tbody>
+        </table>
+</div>
+    </div>
+<!-- Thêm thông báo nổi -->
+<div id="toast" class="toast">✅ Đơn hàng đã được thêm thành công!</div>
+
+<style>
+/* Toast notification */
+.toast {
+    visibility: hidden;
+    min-width: 250px;
+    background-color: rgba(0, 51, 102, 0.9);
+    color: white;
+    text-align: center;
+    border-radius: 8px;
+    padding: 12px;
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 16px;
+    z-index: 1000;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out, bottom 0.3s ease-in-out;
+}
+
+.toast.show {
+    visibility: visible;
+    opacity: 1;
+    bottom: 50px;
+}
+
+</style>
+    <script>
+
+document.addEventListener("DOMContentLoaded", function () {
+    loadData(); // Tải dữ liệu từ localStorage khi trang mở lại
+});
+
+// Hiển thị thông báo nhẹ nhàng
+function showToast(message) {
+    const toast = document.getElementById("toast");
+    toast.textContent = message;
+    toast.classList.add("show");
+    setTimeout(() => {
+        toast.classList.remove("show");
+    }, 2500);
+}
+
+// Kiểm tra số đơn hàng có trùng không
+function isDuplicateOrder(orderNumber) {
+    const storedData = JSON.parse(localStorage.getItem("orders")) || [];
+    return storedData.some(order => order.so_don_hang === orderNumber);
+}
+
+// Xử lý nhập liệu
+function submitForm(event) {
+    event.preventDefault();
+    const form = new FormData(event.target);
+    const data = Object.fromEntries(form.entries());
+
+    if (!validateForm(data)) return;
+
+    // Kiểm tra số đơn hàng trùng lặp
+    if (isDuplicateOrder(data.so_don_hang)) {
+        showToast("⚠️ Số đơn hàng đã tồn tại!");
+        return;
+    }
+
+    // Ghi nhận thời gian nhập liệu
+    data.thoi_gian_nhap = new Date().toLocaleString();
+
+    // Lưu vào LocalStorage
+    const storedData = JSON.parse(localStorage.getItem("orders")) || [];
+    storedData.unshift(data);
+    localStorage.setItem("orders", JSON.stringify(storedData));
+
+    // Thêm vào bảng hiển thị
+    addRowToTable(data, true);
+
+    // Reset form
+    event.target.reset();
+    showToast("✅ Đơn hàng đã được thêm!");
+
+    // Gửi dữ liệu lên Google Sheets (nếu cần)
+    sendDataToGoogleSheet(data);
+}
+
+// Gửi dữ liệu lên Google Sheets
+async function sendDataToGoogleSheet(data) {
+    try {
+        await fetch("https://script.google.com/macros/s/AKfycbw-Orb_7-lzMDWqZgwQRliyYpIYGBB0-REqR9Fx6Q44Wi3SvZvpEJDlqLvLmGMgBfFE2g/exec", {
+            method: "POST",
+            mode: "no-cors",
+            body: JSON.stringify(data),
+            headers: { "Content-Type": "application/json" }
+        });
+        showToast("✅ Đơn hàng đã được gửi!");
+    } catch (error) {
+        showToast("❌ Lỗi khi gửi đơn hàng!");
+        console.error(error);
+    }
+}
+
+// Thêm hàng vào bảng
+function addRowToTable(data, isNew = true) {
+    const orderList = document.getElementById("order-list");
+    const row = document.createElement("tr");
+
+    Object.values(data).forEach(value => {
+        const cell = document.createElement("td");
+        cell.textContent = value;
+        row.appendChild(cell);
+    });
+
+    // Thêm nút xóa đơn hàng
+    const deleteCell = document.createElement("td");
+    const deleteButton = document.createElement("button");
+    deleteButton.textContent = "❌ Xóa";
+    deleteButton.style.background = "red";
+    deleteButton.style.color = "white";
+    deleteButton.style.border = "none";
+    deleteButton.style.padding = "5px 10px";
+    deleteButton.style.borderRadius = "5px";
+    deleteButton.style.cursor = "pointer";
+    deleteButton.onclick = function () {
+        deleteOrder(data.so_don_hang, row);
+    };
+    deleteCell.appendChild(deleteButton);
+    row.appendChild(deleteCell);
+
+    if (isNew) {
+        orderList.prepend(row);
+    } else {
+        orderList.appendChild(row);
+    }
+}
+
+// Xóa đơn hàng
+function deleteOrder(orderNumber, row) {
+    let storedData = JSON.parse(localStorage.getItem("orders")) || [];
+    storedData = storedData.filter(order => order.so_don_hang !== orderNumber);
+    localStorage.setItem("orders", JSON.stringify(storedData));
+
+    row.remove();
+    showToast("🗑️ Đã xóa đơn hàng!");
+}
+
+// Tải dữ liệu từ localStorage và hiển thị lên bảng
+function loadData() {
+    const storedData = JSON.parse(localStorage.getItem("orders")) || [];
+    const orderList = document.getElementById("order-list");
+    orderList.innerHTML = ""; // Xóa bảng trước khi tải lại dữ liệu
+    storedData.forEach(data => addRowToTable(data, false));
+}
+
+// Kiểm tra form nhập liệu
+function validateForm(formData) {
+    let isValid = true;
+    document.querySelectorAll("input, select").forEach(input => {
+        let value = formData[input.name]?.trim();
+        if (!value) {
+            input.style.border = "2px solid red";
+            isValid = false;
+        } else {
+            input.style.border = "1px solid #ccc";
+        }
+    });
+    if (!isValid) showToast("⚠️ Vui lòng nhập đầy đủ thông tin!");
+    return isValid;
+}
+
+
+// Tải dữ liệu từ localStorage khi trang được tải lại
+window.onload = loadData;
+
+    </script>
+</body>
+</html>
