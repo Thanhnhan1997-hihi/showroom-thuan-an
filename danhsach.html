@@ -519,6 +519,9 @@ th.sorted-desc::after {
         </div>
     </div>
 <script>
+     if (sessionStorage.getItem('loggedIn') !== 'true') {
+        window.location.href = "dang-nhap.html";
+    }
 let tableData = {
     table1: [],
     table2: []
